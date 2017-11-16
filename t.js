@@ -41,7 +41,7 @@ function onUse(name) {
 function use(name) {
   var a = exec('cp -Rf ' + sshPath + 'skm/' + name + '/* ' + sshPath, function(err, stdout, stderr) {
     if (err) throw err;
-    fs.writeFile(sshPath + 'skm/skm.json', '\"use\"=\"' + name +'\"', function (err, result) {
+    fs.writeFile(sshPath + 'skm/skm.json', '{\"use\":\"}' + name +'\"', function (err, result) {
       printMsg([
         '', '   ssh key has been use: ' + name, ''
       ])
@@ -86,6 +86,6 @@ function init(){
   });
 }
 // init();
-// onList();
+onList();
 // create('13665544@qq.com', 'dsafassw');
-onUse('bbb')
+// onUse('bbb')
