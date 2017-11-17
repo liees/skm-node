@@ -1,14 +1,12 @@
 {
   "name": "skm-node",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "SSH keys manager for nodejs",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "npm star skm-node"
   },
-  "bin": {
-    "index": "./bin/index.js"
-  },
+  "bin": "./index.js",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/liees/skm-node.git"
