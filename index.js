@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 
 var fs = require('fs');
+var path = require('path');
 var program = require('commander');
 var PKG = require('./package.json');
 
