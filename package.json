@@ -1,12 +1,9 @@
 {
   "name": "skm-node",
-  "version": "1.0.6",
+  "version": "1.1.1",
   "description": "SSH keys manager for nodejs",
-  "scripts": {
-    "start": "npm star skm-node"
-  },
   "bin": {
-    "skm": "./bin/index.js"
+    "skm":"./skm.js"
   },
   "repository": {
     "type": "git",
@@ -19,6 +16,6 @@
   },
   "homepage": "https://github.com/liees/skm-node#readme",
   "dependencies": {
-    "commander": "^2.11.0"
+    "commander": "^2.9.0"
   }
 }

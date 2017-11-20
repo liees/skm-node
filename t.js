@@ -4,6 +4,7 @@ var fs = require('fs')
 var sshPathArr = process.cwd().split('/');
 var sshPath = sshPathArr[0] + '/' + sshPathArr[1] + '/' + sshPathArr[2] + '/.ssh/';
 var exec = require('child_process').exec
+var os = require('os')
 
 function onList(){
   fs.readdir(sshPath + 'skm/', 'r', function (err, result) {
@@ -87,3 +88,4 @@ function init(){
 // onList();
 // create('13665544@qq.com', 'dsafassw');
 // onUse('bbb')
+console.log(os.homedir())
