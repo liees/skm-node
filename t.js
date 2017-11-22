@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-
+const Promise = require('bluebird');
 const fs = require('fs');
 const os = require('os');
 const path = require('path');
@@ -103,8 +103,10 @@ program
 //   }
 // }
 
-// function init(){
-//   fs.writeFile(sshPath + 'skm/skm.json', '{\"use\":\"\"}', function (err, result) {
-//     return;
-//   });
-// }
+function init(){
+  let mkdirskm = fs.mkdirSync(skmPath);
+  let writeskm = fs.writeFileSync(skmPath + '/config.json', '{\"use\":\"\"}');
+  return;
+}
+
+init()

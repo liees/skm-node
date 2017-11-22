@@ -34,8 +34,7 @@ if (process.argv.length === 2) {
 
 
 function init(){
-  fs.writeFile(sshPath + 'skm/skm.json', '{\"use\":\"\"}', function (err, result) {
-    console.log('     skm-node init is successful')
-    return;
-  });
+  let mkdirskm = fs.mkdirSync(skmPath);
+  let writeskm = fs.writeFileSync(skmPath + '/config.json', '{\"use\":\"\"}');
+  return;
 }
