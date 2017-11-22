@@ -69,7 +69,7 @@ function onList() {
   }
   if (infos.length < 1) {
     printMsg([
-      '', ' No ssh-key managed by shm-node!'
+      '', ' No ssh-key managed by skm-node!'
     ]);
   }
   printMsg(infos);
