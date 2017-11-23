@@ -8,26 +8,30 @@ SSH keys manager for nodejs
 
 注意：
 1. 安装之前请确认`~/.skm` 目录不存在
-2. 如果已经有sshkey在使用，使用本工具前请备份然后替换你为使用本工具创建的skm。
+2. 如果已经有sshkey在使用，使用本工具前请备份，避免丢失
 
 
-- 安装
+- Install
 ```
 npm install -g
 ```
-- 初始化
+- Init
 ```
 skm init
 ```
-- 列表
+- list
 ```
 skm ls
 ```
-- 创建
+- create new ssh key
 ```
 skm create <email> <name> 
 ```
-- 使用
+- use
 ```
 skm use <name>
 ```
+
+Licence
+
+this repo is released under the WTFPL – Do What the Fuck You Want to Public License.
