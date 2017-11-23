@@ -1,4 +1,4 @@
-# skm
+## ssh keys manager
 
 ----
 
@@ -11,27 +11,32 @@ SSH keys manager for nodejs
 2. 如果已经有sshkey在使用，使用本工具前请备份，避免丢失
 
 
-- Install
+#### Install
 ```
 npm install -g
 ```
-- Init
+
+#### Init
 ```
 skm init
 ```
-- list
+
+#### list
 ```
 skm ls
 ```
-- create new ssh key
+
+#### create new ssh key
 ```
 skm create <email> <name> 
 ```
-- use
+
+#### use
 ```
 skm use <name>
 ```
 
-Licence
+
+###Licence
 
 this repo is released under the WTFPL – Do What the Fuck You Want to Public License.
