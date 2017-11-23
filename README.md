@@ -37,6 +37,6 @@ skm use <name>
 ```
 
 
-###Licence
+### Licence
 
 this repo is released under the WTFPL – Do What the Fuck You Want to Public License.
