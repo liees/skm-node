@@ -1,5 +1,8 @@
 ## ssh keys manager
 
+[![npm](https://img.shields.io/npm/v/npm.svg)](https://www.npmjs.com/package/skm-node)
+[![npm](https://img.shields.io/npm/dt/express.svg)](https://www.npmjs.com/package/skm-node)
+
 ----
 
 SSH keys manager for nodejs
