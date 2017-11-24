@@ -1,22 +1,22 @@
-## ssh keys manager
+ssh keys manager
+======
 
-[![npm](https://img.shields.io/npm/v/npm.svg)](https://www.npmjs.com/package/skm-node)
-[![npm](https://img.shields.io/npm/dt/express.svg)](https://www.npmjs.com/package/skm-node)
-
-----
+[![npm version](https://badge.fury.io/js/skm-node.svg)](https://badge.fury.io/js/skm-node)
 
 SSH keys manager for nodejs
+----
 
-本工具安装目录：`~/.skm`
+installation manual: `~/.skm`
 
-注意：
-1. 安装之前请确认`~/.skm` 目录不存在
-2. 如果已经有sshkey在使用，使用本工具前请备份，避免丢失
+note: 
+1. Please confirm before installation the `~/.skm` does not exist
+2. If you already have ssh key in use, please backup before use to avoid loss
 
 
 #### Install
+
 ```
-npm install -g
+npm install -g skm-node
 ```
 
 #### Init
