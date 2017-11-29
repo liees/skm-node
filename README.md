@@ -1,4 +1,4 @@
-#SSH keys manager for nodejs
+# SSH keys manager for nodejs
 ----
 
 [![npm version](https://img.shields.io/npm/v/skm-node.svg)](https://badge.fury.io/js/skm-node)
