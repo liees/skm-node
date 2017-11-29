@@ -41,6 +41,16 @@ skm use <name>
 ```
 
 
-### Licence
+## Contributing
 
-this repo is released under the WTFPL – Do What the Fuck You Want to Public License.
+1. Fork it
+2. Create your feature branch (git checkout -b my-new-feature)
+3. Commit your changes (git commit -am 'Add some feature')
+4. Push to the branch (git push origin my-new-feature)
+5. Create new Pull Request
+
+## Licence
+
+this repo is released under the [WTFPL](https://github.com/liees/inspection_area/blob/master/LICENSE) – Do What the Fuck You Want to Public License.
+
+
