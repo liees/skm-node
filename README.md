@@ -2,6 +2,7 @@ ssh keys manager
 ======
 
 [![npm version](https://badge.fury.io/js/skm-node.svg)](https://badge.fury.io/js/skm-node)
+[![downloads](https://img.shields.io/npm/dt/skm-node.svg)](https://www.npmjs.com/package/skm-node)
 [![CRAN](https://img.shields.io/badge/license-Do%20What%20the%20Fuck%20You%20Want%20to%20Public%20License-green.svg)](https://github.com/liees/skm-node/blob/master/LICENSE)
 
 SSH keys manager for nodejs
