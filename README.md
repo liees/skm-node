@@ -14,7 +14,7 @@ note:
 2. If you already have ssh key in use, please backup before use to avoid loss
 
 
-#### Install
+#### Installtion
 
 ```
 npm install -g skm-node
@@ -25,17 +25,17 @@ npm install -g skm-node
 skm init
 ```
 
-#### list
+#### List
 ```
 skm ls
 ```
 
-#### create new ssh key
+#### Create new ssh key
 ```
 skm create <email> <name> 
 ```
 
-#### use
+#### Use
 ```
 skm use <name>
 ```
