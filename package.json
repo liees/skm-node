@@ -1,20 +1,20 @@
 {
   "name": "skm-node",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "SSH keys manager for nodejs",
   "bin": {
     "skm": "./skm.js"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/liees/skm-node.git"
+    "url": "git+https://github.com/1qing/skm-node.git"
   },
-  "author": "liees",
+  "author": "1qing",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/liees/skm-node/issues"
+    "url": "https://github.com/1qing/skm-node/issues"
   },
-  "homepage": "https://github.com/liees/skm-node#readme",
+  "homepage": "https://github.com/1qing/skm-node#readme",
   "dependencies": {
     "commander": "^2.11.0",
     "shelljs": "^0.7.8"
