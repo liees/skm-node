@@ -24,7 +24,11 @@ $ npm install -g skm-node
 #### Init
 ```
 $ skm init
+
+skm-node init successful!
 ```
+
+
 
 #### List
 ```

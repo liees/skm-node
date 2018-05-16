@@ -63,7 +63,7 @@ function onList() {
   let infos = [];
   for (let i = 0; i < dirArr.length; i++) {
     let line = require(skmPath + '/config.json').use === dirArr[i] ? ' #  ' + dirArr[i] : '    ' + dirArr[i];
-    if (dirArr[i] !== 'config.json' || dirArr[i] !== '.DS_Store') {
+    if (dirArr[i] !== 'config.json') {
       infos.push(line);
     }
   }
