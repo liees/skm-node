@@ -30,7 +30,7 @@ program
   .action(onUse)
 
 program
-  .command('create <name> <email>')
+  .command('c <name> <email>')
   .description('create new ssh key')
   .action(create)
 
@@ -39,7 +39,7 @@ program
   .command('help')
   .description('Print this help')
   .action(function () {
-      program.outputHelp();
+    program.outputHelp();
   });
 
 program
@@ -61,9 +61,9 @@ function init() {
 function onList() {
   let dirArr = fs.readdirSync(skmPath);
   let infos = [];
-  for(let i = 0; i < dirArr.length; i++){
-    let line = require(skmPath + '/config.json').use === dirArr[i] ? ' *  ' + dirArr[i] : '    ' + dirArr[i];
-    if (dirArr[i] !== 'config.json'){
+  for (let i = 0; i < dirArr.length; i++) {
+    let line = require(skmPath + '/config.json').use === dirArr[i] ? ' #  ' + dirArr[i] : '    ' + dirArr[i];
+    if (dirArr[i] !== 'config.json' || dirArr[i] !== '.DS_Store') {
       infos.push(line);
     }
   }
@@ -75,27 +75,27 @@ function onList() {
   printMsg(infos);
 }
 
-function create(name, email){
-  if(!email && !name) {
+function create(email, name) {
+  if (!email && !name) {
     printMsg([
-      '', ' please input name and email!',''
+      '', ' please input name and email!', ''
     ]);
   } else {
     let dirArr = fs.readdirSync(skmPath);
-    if(dirArr.indexOf(name) !== -1) {
+    if (dirArr.indexOf(name) !== -1) {
       printMsg([
-        '', '   The ssh key: ' + name + ' is already exists, please choose another one!',''
+        '', '   The ssh key: ' + name + ' is already exists, please choose another one!', ''
       ]);
     } else {
       shelljs.mkdir(skmPath + '/' + name);
-      exec('ssh-keygen -t rsa -C ' + email + ' -f ' + skmPath + '/' + name + '/id_rsa', function(err, stdout, stderr){
-        if(err) {
+      exec('ssh-keygen -t rsa -C ' + email + ' -f ' + skmPath + '/' + name + '/id_rsa', function (err, stdout, stderr) {
+        if (err) {
           printMsg([
-            '', '  Error! Please try again!',''
+            '', '  Error! Please try again!', ''
           ]);
         } else {
           printMsg([
-            '', ' successful, You can use the ' + name + ' ssh key!',''
+            '', ' successful, You can use the ' + name + ' ssh key!', ''
           ]);
         }
       });
@@ -120,7 +120,7 @@ function onUse(name) {
 
 
 function printMsg(infos) {
-  infos.forEach(function(info) {
+  infos.forEach(function (info) {
     console.log(info);
   });
 }

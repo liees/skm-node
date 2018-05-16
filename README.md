@@ -10,6 +10,7 @@
 installation manual: `~/.skm`
 
 note: 
+
 1. Please confirm before installation the `~/.skm` does not exist
 2. If you already have ssh key in use, please backup before use to avoid loss
 
@@ -17,27 +18,27 @@ note:
 #### Installtion
 
 ```
-npm install -g skm-node
+$ npm install -g skm-node
 ```
 
 #### Init
 ```
-skm init
+$ skm init
 ```
 
 #### List
 ```
-skm ls
+$ skm ls
 ```
 
 #### Create new ssh key
 ```
-skm create <email> <name> 
+$ skm c <email> <name> 
 ```
 
 #### Use
 ```
-skm use <name>
+$ skm use <name>
 ```
 
 
@@ -50,6 +51,7 @@ skm use <name>
 5. Create new Pull Request
 
 ## Licence
+
 
 this repo is released under the [WTFPL](https://github.com/liees/inspection_area/blob/master/LICENSE) – Do What the Fuck You Want to Public License.
 
