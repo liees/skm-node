@@ -15,6 +15,11 @@
     "url": "https://github.com/1qing/skm-node/issues"
   },
   "homepage": "https://github.com/1qing/skm-node#readme",
+  "keywords":[
+    "ssh",
+    "keys",
+    "Terminal"
+  ],
   "dependencies": {
     "commander": "^2.11.0",
     "shelljs": "^0.7.8"
