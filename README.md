@@ -7,46 +7,54 @@
 
 ----
 
-installation manual: `~/.skm`
+Help you manage multiple sshkey
 
-note: 
+#### Precautions
 
-1. Please confirm before installation the `~/.skm` does not exist
-2. If you already have ssh key in use, please backup before use to avoid loss
-
+Make sure the ~/.skm directory does not exist
+If you are currently using sshkey, please save it first to avoid loss
 
 #### Installtion
 
 ```
 $ npm install -g skm-node
-```
-
-#### Init
-```
+Init
 $ skm init
 
 skm-node init successful!
 ```
 
-
-
 #### List
+
 ```
 $ skm ls
+
+    123
+ #  default
 ```
 
 #### Create new ssh key
+
 ```
-$ skm c <email> <name> 
+$ skm c <email> <name>
+
+$ skm c 123@qq.com 123
+Enter passphrase (empty for no passphrase):
+Enter same passphrase again:
+
+ successful, You can use the 123 ssh key!
 ```
 
 #### Use
+
 ```
 $ skm use <name>
+
+skm use 123
+ Now SSH KEY use the: 123
 ```
 
-
-## Contributing
+#### Contributing
 
 1. Fork it
 2. Create your feature branch (git checkout -b my-new-feature)
@@ -54,9 +62,6 @@ $ skm use <name>
 4. Push to the branch (git push origin my-new-feature)
 5. Create new Pull Request
 
-## Licence
-
-
-this repo is released under the [WTFPL](https://github.com/liees/inspection_area/blob/master/LICENSE) – Do What the Fuck You Want to Public License.
-
+#### Licence
+this repo is released under the [WTFPL](https://github.com/liees/skm-node/blob/master/LICENSE) – Do What the Fuck You Want to Public License.
 
