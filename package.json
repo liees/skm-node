@@ -7,14 +7,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/1qing/skm-node.git"
+    "url": "git+https://github.com/liees/skm-node.git"
   },
-  "author": "1qing",
+  "author": "liees",
   "license": "WTFPL",
   "bugs": {
-    "url": "https://github.com/1qing/skm-node/issues"
+    "url": "https://github.com/liees/skm-node/issues"
   },
-  "homepage": "https://github.com/1qing/skm-node#readme",
+  "homepage": "https://github.com/liees/skm-node#readme",
   "keywords":[
     "sshkey"
   ],
