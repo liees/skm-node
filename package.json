@@ -1,6 +1,6 @@
 {
   "name": "skm-node",
-  "version": "0.1.5",
+  "version": "0.1.6",
   "description": "SSH keys manager for nodejs",
   "bin": {
     "skm": "./skm.js"
@@ -16,9 +16,7 @@
   },
   "homepage": "https://github.com/1qing/skm-node#readme",
   "keywords":[
-    "ssh",
-    "keys",
-    "Terminal"
+    "sshkey"
   ],
   "dependencies": {
     "commander": "^2.11.0",
