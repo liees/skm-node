@@ -18,7 +18,11 @@ If you are currently using sshkey, please save it first to avoid loss
 
 ```
 $ npm install -g skm-node
-Init
+```
+
+#### Init
+
+```
 $ skm init
 
 skm-node init successful!
@@ -42,7 +46,7 @@ $ skm c 123@qq.com 123
 Enter passphrase (empty for no passphrase):
 Enter same passphrase again:
 
- successful, You can use the 123 ssh key!
+successful, You can use the 123 ssh key!
 ```
 
 #### Use
@@ -50,8 +54,8 @@ Enter same passphrase again:
 ```
 $ skm use <name>
 
-skm use 123
- Now SSH KEY use the: 123
+$ skm use 123
+Now SSH KEY use the: 123
 ```
 
 #### Contributing
