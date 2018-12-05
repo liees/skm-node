@@ -6,16 +6,11 @@
 [![CRAN](https://img.shields.io/badge/license-Do%20What%20the%20Fuck%20You%20Want%20to%20Public%20License-green.svg)](https://github.com/liees/skm-node/blob/master/LICENSE)
 
 
-For manage multiple sshkeys
+### For manage multiple sshkeys.
 
-#### Note
+1. Make sure the `~/.skm` directory does not exist.
 
-Make sure the `~/.skm` directory does not exist.
-
-Please save first to avoid loss if you are currently using sshkey.
-
-
-
+2. Please save first to avoid loss if you are currently using sshkey.
 
 #### Installtion
 
