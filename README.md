@@ -7,13 +7,15 @@
 
 ----
 
-Help you manage multiple sshkey☺
+Help you manage multiple sshkey~
 
-#### Precautions
+### Precautions
 
 **Make sure the ~/.skm directory does not exist**
 
 **If you are currently using sshkey, please save it first to avoid loss**
+
+
 
 #### Installtion
 
