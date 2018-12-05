@@ -5,15 +5,15 @@
 [![downloads](https://img.shields.io/npm/dt/skm-node.svg)](https://www.npmjs.com/package/skm-node)
 [![CRAN](https://img.shields.io/badge/license-Do%20What%20the%20Fuck%20You%20Want%20to%20Public%20License-green.svg)](https://github.com/liees/skm-node/blob/master/LICENSE)
 
-----
 
-Help you manage multiple sshkey~
+For manage multiple sshkeys
 
-### Precautions
+#### Note
 
-**Make sure the ~/.skm directory does not exist**
+Make sure the `~/.skm` directory does not exist.
 
-**If you are currently using sshkey, please save it first to avoid loss**
+Please save first to avoid loss if you are currently using sshkey.
+
 
 
 
