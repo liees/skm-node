@@ -62,7 +62,7 @@ function onList() {
   let dirArr = fs.readdirSync(skmPath);
   let infos = [];
   for (let i = 0; i < dirArr.length; i++) {
-    let line = require(skmPath + '/config.json').use === dirArr[i] ? ' =>  ' + dirArr[i] : '    ' + dirArr[i];
+    let line = require(skmPath + '/config.json').use === dirArr[i] ? ' =>  ' + dirArr[i] : '     ' + dirArr[i];
     if (dirArr[i] !== 'config.json') {
       infos.push(line);
     }
