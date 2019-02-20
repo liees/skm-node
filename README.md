@@ -6,7 +6,7 @@
 [![CRAN](https://img.shields.io/badge/license-Do%20What%20the%20Fuck%20You%20Want%20to%20Public%20License-green.svg)](https://github.com/liees/skm-node/blob/master/LICENSE)
 
 
-### For manage multiple sshkeys.
+#### Before
 
 1. Make sure the `~/.skm` directory does not exist.
 
@@ -35,7 +35,7 @@ $ skm ls
  #  default
 ```
 
-#### Create new ssh key
+#### New ssh key
 
 ```
 $ skm c <email> <name>
