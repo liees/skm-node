@@ -18,7 +18,24 @@
 $ npm install -g skm-node
 ```
 
-#### Init
+#### Usage
+
+```
+Usage: skm [options] [command]
+
+Options:
+  -V, --version     output the version number
+  -h, --help        output usage information
+
+Commands:
+  init              Initialize skm-node
+  ls                List all the ssh key
+  use <name>        change the use ssh key
+  c <name> <email>  create new ssh key
+  help              Print this help
+```
+
+#### Example
 
 ```
 $ skm init
@@ -26,16 +43,12 @@ $ skm init
 skm-node init successful!
 ```
 
-#### List
-
 ```
 $ skm ls
 
     123
  #  default
 ```
-
-#### New ssh key
 
 ```
 $ skm c <email> <name>
@@ -46,8 +59,6 @@ Enter same passphrase again:
 
 successful, You can use the 123 ssh key!
 ```
-
-#### Use
 
 ```
 $ skm use <name>
