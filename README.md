@@ -6,19 +6,19 @@
 [![CRAN](https://img.shields.io/badge/license-Do%20What%20the%20Fuck%20You%20Want%20to%20Public%20License-green.svg)](https://github.com/liees/skm-node/blob/master/LICENSE)
 
 
-#### Before
+## Before
 
-1. Make sure the `~/.skm` directory does not exist.
+1. Make sure the `~/.skm` directory does not exist, please.
 
-2. Please save first to avoid loss if you are currently using sshkey.
+2. save first to avoid loss if you are currently using sshkey, please.
 
-#### Installtion
+## Installtion
 
 ```
 $ npm install -g skm-node
 ```
 
-#### Usage
+## Usage
 
 ```
 Usage: skm [options] [command]
@@ -35,7 +35,7 @@ Commands:
   help              Print this help
 ```
 
-#### Example
+## Example
 
 ```
 $ skm init
@@ -67,7 +67,7 @@ $ skm use 123
 Now SSH KEY use the: 123
 ```
 
-#### Contributing
+## Contributing
 
 1. Fork it
 2. Create your feature branch (git checkout -b my-new-feature)
@@ -75,7 +75,7 @@ Now SSH KEY use the: 123
 4. Push to the branch (git push origin my-new-feature)
 5. Create new Pull Request
 
-#### Licence
+## Licence
 
 this repo is released under the [WTFPL](https://github.com/liees/skm-node/blob/master/LICENSE) – Do What the Fuck You Want to Public License.
 
