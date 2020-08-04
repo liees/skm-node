@@ -8,7 +8,7 @@
   "publishConfig": { "registry": "https://npm.pkg.github.com/" },
   "repository": {
     "type": "git",
-    "url": "https://github.com/qi-73557/skm-node.git"
+    "url": "git@github.com:qi-73557/skm-node.git"
   },
   "author": "qi-73557",
   "license": "WTFPL",
