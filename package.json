@@ -5,16 +5,17 @@
   "bin": {
     "skm": "./skm.js"
   },
+  "publishConfig": { "registry": "https://npm.pkg.github.com/" },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/liees/skm-node.git"
+    "url": "https://github.com/qi-73557/skm-node.git"
   },
-  "author": "liees",
+  "author": "qi-73557",
   "license": "WTFPL",
   "bugs": {
-    "url": "https://github.com/liees/skm-node/issues"
+    "url": "https://github.com/qi-73557/skm-node/issues"
   },
-  "homepage": "https://github.com/liees/skm-node#readme",
+  "homepage": "https://github.com/qi-73557/skm-node#readme",
   "keywords": [
     "ssh",
     "key",
