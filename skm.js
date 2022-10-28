@@ -12,11 +12,13 @@ const sshPath = path.join(homedir, '.ssh');
 const skmPath = path.join(homedir, '.skm');
 
 program
+  .name('skm-node')
+  .description('SSH keys manager for nodejs')
   .version(package.version)
 
 program
   .command('init')
-  .description('Initialize skm-node')
+  .description('Initialize skm-node, if the machine already has ssh key and add it to skm-node, by default')
   .action(init)
 
 program
@@ -30,10 +32,9 @@ program
   .action(onUse)
 
 program
-  .command('c <name> <email>')
+  .command('c <email> <name>')
   .description('create new ssh key')
   .action(create)
-
 
 program
   .command('help')
@@ -41,6 +42,8 @@ program
   .action(function () {
     program.outputHelp();
   });
+
+
 
 program
   .parse(process.argv);
@@ -51,8 +54,18 @@ if (process.argv.length === 2) {
 
 
 function init() {
-  let mkdirskm = fs.mkdirSync(skmPath);
-  let writeskm = fs.writeFileSync(skmPath + '/config.json', '{\"use\":\"\"}');
+  const is_skm = fs.existsSync(skmPath)
+  const is_skm_config = fs.existsSync(path.join(skmPath, '/config.json'))
+  if (is_skm) {
+    if (!is_skm_config) {
+      fs.writeFileSync(skmPath + '/config.json', '{\"use\":\"\"}');
+    } else {
+      return printMsg(['', 'skm-node is already init, you can try create or use it!'])
+    }
+  } else {
+    fs.mkdirSync(skmPath);
+    fs.writeFileSync(skmPath + '/config.json', '{\"use\":\"\"}');
+  }
   return printMsg([
     '', 'skm-node init successful!'
   ]);
@@ -62,7 +75,7 @@ function onList() {
   let dirArr = fs.readdirSync(skmPath);
   let infos = [];
   for (let i = 0; i < dirArr.length; i++) {
-    let line = require(skmPath + '/config.json').use === dirArr[i] ? ' =>  ' + dirArr[i] : '     ' + dirArr[i];
+    let line = require(skmPath + '/config.json').use === dirArr[i] ? ' =>  \n ' + dirArr[i] : '     ' + dirArr[i];
     if (dirArr[i] !== 'config.json') {
       infos.push(line);
     }

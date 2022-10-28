@@ -5,6 +5,9 @@
 [![downloads](https://img.shields.io/npm/dt/skm-node.svg)](https://www.npmjs.com/package/skm-node)
 [![CRAN](https://img.shields.io/badge/license-Do%20What%20the%20Fuck%20You%20Want%20to%20Public%20License-green.svg)](https://github.com/liees/skm-node/blob/master/LICENSE)
 
+## Update Notes
+
+This update adds checking the local ssh-key during initialization and adding it to skm-node
 
 ## Before
 
@@ -28,7 +31,7 @@ Options:
   -h, --help        output usage information
 
 Commands:
-  init              Initialize skm-node
+  init              Initialize skm-node, if the machine already has ssh key and add it to skm-node
   ls                List all the ssh key
   use <name>        change the use ssh key
   c <name> <email>  create new ssh key
@@ -46,25 +49,28 @@ skm-node init successful!
 ```
 $ skm ls
 
-    123
+    gmail
  #  default
 ```
 
 ```
 $ skm c <email> <name>
 
-$ skm c 123@qq.com 123
+$ skm c liees@gmail.com gmail
+
+# enter
+
 Enter passphrase (empty for no passphrase):
 Enter same passphrase again:
 
-successful, You can use the 123 ssh key!
+successful, You can use the gmail ssh key!
 ```
 
 ```
 $ skm use <name>
 
-$ skm use 123
-Now SSH KEY use the: 123
+$ skm use gmail
+Now SSH KEY use the: gmail
 ```
 
 ## Contributing

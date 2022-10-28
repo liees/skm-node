@@ -1,28 +1,30 @@
 {
   "name": "skm-node",
-  "version": "2.0.2",
+  "version": "2.0.4",
   "description": "SSH keys manager for nodejs",
   "bin": {
     "skm": "./skm.js"
   },
-  "publishConfig": { "registry": "https://npm.pkg.github.com/" },
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com/"
+  },
   "repository": {
     "type": "git",
-    "url": "git@github.com:qi-73557/skm-node.git"
+    "url": "git@github.com:liees/skm-node.git"
   },
-  "author": "qi-73557",
+  "author": "liees",
   "license": "WTFPL",
   "bugs": {
-    "url": "https://github.com/qi-73557/skm-node/issues"
+    "url": "https://github.com/liees/skm-node/issues"
   },
-  "homepage": "https://github.com/qi-73557/skm-node#readme",
+  "homepage": "https://github.com/liees/skm-node#readme",
   "keywords": [
     "ssh",
     "key",
     "sshkey"
   ],
   "dependencies": {
-    "commander": "^2.20.0",
-    "shelljs": "^0.8.3"
+    "commander": "^9.4.1",
+    "shelljs": "^0.8.5"
   }
 }
