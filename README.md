@@ -1,87 +1,154 @@
-# SSH keys manager for nodejs
-----
-[![Build Status](https://travis-ci.org/liees/skm-node.svg?branch=master)](https://travis-ci.org/liees/skm-node)
+# SSH Key Manager for Node.js (skm-node)
+
 [![npm version](https://img.shields.io/npm/v/skm-node.svg)](https://badge.fury.io/js/skm-node)
 [![downloads](https://img.shields.io/npm/dt/skm-node.svg)](https://www.npmjs.com/package/skm-node)
-[![CRAN](https://img.shields.io/badge/license-Do%20What%20the%20Fuck%20You%20Want%20to%20Public%20License-green.svg)](https://github.com/liees/skm-node/blob/master/LICENSE)
+[![License](https://img.shields.io/badge/license-WTFPL-green.svg)](LICENSE)
 
-## Update Notes
+A modern, easy-to-use SSH key manager for Node.js. Easily create, switch between, and manage multiple SSH keys for different services (GitHub, GitLab, servers, etc.).
 
-This update adds checking the local ssh-key during initialization and adding it to skm-node
+## Features
 
-## Before
+- 🔑 Create and manage multiple SSH keys
+- 🔄 Easy switching between different SSH keys
+- 📋 List all managed keys with clear visual indicators
+- 🚀 Modern ES Modules implementation
+- 🎨 Beautiful colored terminal output
+- ✅ Fully tested with Jest
+- 🔒 Secure key generation with 4096-bit RSA keys
 
-1. Make sure the `~/.skm` directory does not exist, please.
+> 本次更新均来自AI
 
-2. save first to avoid loss if you are currently using sshkey, please.
+## Requirements
 
-## Installtion
+- Node.js >= 18.0.0
 
-```
-$ npm install -g skm-node
+## Installation
+
+```bash
+npm install -g skm-node
 ```
 
 ## Usage
 
-```
-Usage: skm [options] [command]
+### Initialize skm-node
 
-Options:
-  -V, --version     output the version number
-  -h, --help        output usage information
+Before first use, initialize skm-node:
 
-Commands:
-  init              Initialize skm-node, if the machine already has ssh key and add it to skm-node
-  ls                List all the ssh key
-  use <name>        change the use ssh key
-  c <name> <email>  create new ssh key
-  help              Print this help
+```bash
+skm init
 ```
 
-## Example
+This will create necessary directories and configuration files. If you have existing SSH keys, skm-node will detect them.
 
-```
-$ skm init
+### Create a New SSH Key
 
-skm-node init successful!
-```
+```bash
+skm create <email> <name>
 
-```
-$ skm ls
-
-    gmail
- #  default
+# Example:
+skm create "john@example.com" github
 ```
 
-```
-$ skm c <email> <name>
+This will:
+- Create a new 4096-bit RSA key
+- Store it with the given name
+- Associate it with your email
 
-$ skm c liees@gmail.com gmail
+### List Available Keys
 
-# enter
-
-Enter passphrase (empty for no passphrase):
-Enter same passphrase again:
-
-successful, You can use the gmail ssh key!
+```bash
+skm ls
 ```
 
-```
-$ skm use <name>
+The current active key will be marked with a green arrow (→).
 
-$ skm use gmail
-Now SSH KEY use the: gmail
+### Switch Between Keys
+
+```bash
+skm use <name>
+
+# Example:
+skm use github
 ```
+
+This will activate the specified SSH key, making it the default key for SSH operations.
+
+### Help
+
+```bash
+skm --help
+```
+
+Shows all available commands and their usage.
+
+## Directory Structure
+
+- `~/.skm/` - Base directory for skm-node
+  - `config.json` - Configuration file
+  - `<key-name>/` - Directory for each SSH key
+    - `id_rsa` - Private key
+    - `id_rsa.pub` - Public key
+
+## Development
+
+### Setup
+
+```bash
+# Clone the repository
+git clone https://github.com/liees/skm-node.git
+cd skm-node
+
+# Install dependencies
+npm install
+```
+
+### Testing
+
+The project uses Jest for testing. All major functionality is covered by tests.
+
+```bash
+# Run all tests
+npm test
+
+# Run tests in watch mode (useful during development)
+npm run test:watch
+
+# Run tests with coverage report
+npm run test:coverage
+```
+
+### Project Structure
+
+- `skm.js` - Main application file
+- `__tests__/` - Test files
+  - `init.test.js` - Initialization tests
+  - `key-management.test.js` - Key management tests
 
 ## Contributing
 
-1. Fork it
-2. Create your feature branch (git checkout -b my-new-feature)
-3. Commit your changes (git commit -am 'Add some feature')
-4. Push to the branch (git push origin my-new-feature)
-5. Create new Pull Request
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -am 'Add some amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Create a Pull Request
 
-## Licence
+## License
 
-this repo is released under the [WTFPL](https://github.com/liees/skm-node/blob/master/LICENSE) – Do What the Fuck You Want to Public License.
+This project is licensed under the WTFPL - see the [LICENSE](LICENSE) file for details.
 
+## Acknowledgments
+
+- Original author: [liees](https://github.com/liees)
+- Contributors: [List of contributors](https://github.com/liees/skm-node/graphs/contributors)
+
+## Changelog
+
+### 1.0.0
+- Complete rewrite using modern JavaScript features
+- Added ES Modules support
+- Improved error handling and logging
+- Added colored terminal output
+- Added comprehensive test suite
+- Upgraded to 4096-bit RSA keys for better security
+- Added automatic directory creation
+- Improved command-line interface

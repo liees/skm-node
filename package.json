@@ -1,30 +1,43 @@
 {
   "name": "skm-node",
-  "version": "2.0.4",
-  "description": "SSH keys manager for nodejs",
+  "version": "3.0.0",
+  "description": "Modern SSH Key Manager for Node.js",
+  "type": "module",
+  "main": "skm.js",
   "bin": {
     "skm": "./skm.js"
   },
-  "publishConfig": {
-    "registry": "https://npm.pkg.github.com/"
+  "scripts": {
+    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js",
+    "test:watch": "node --experimental-vm-modules node_modules/jest/bin/jest.js --watch",
+    "test:coverage": "node --experimental-vm-modules node_modules/jest/bin/jest.js --coverage"
   },
-  "repository": {
-    "type": "git",
-    "url": "git@github.com:liees/skm-node.git"
-  },
-  "author": "liees",
-  "license": "WTFPL",
-  "bugs": {
-    "url": "https://github.com/liees/skm-node/issues"
-  },
-  "homepage": "https://github.com/liees/skm-node#readme",
   "keywords": [
     "ssh",
     "key",
-    "sshkey"
+    "manager",
+    "cli"
   ],
+  "author": "liees",
+  "license": "WTFPL",
   "dependencies": {
-    "commander": "^9.4.1",
-    "shelljs": "^0.8.5"
+    "chalk": "^5.3.0",
+    "commander": "^12.0.0",
+    "execa": "^8.0.1"
+  },
+  "devDependencies": {
+    "jest": "^29.7.0",
+    "tmp-promise": "^3.0.3"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "jest": {
+    "transform": {},
+    "testEnvironment": "node",
+    "extensionsToTreatAsEsm": [".js"],
+    "moduleNameMapper": {
+      "^(\\.{1,2}/.*)\\.js$": "$1"
+    }
   }
 }
