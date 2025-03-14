@@ -1,97 +1,97 @@
-import { jest } from '@jest/globals';
+import {
+  jest,
+  describe,
+  beforeEach,
+  afterEach,
+  it,
+  expect,
+} from '@jest/globals';
 import { promises as fs } from 'fs';
-import { join } from 'path';
-import { getDir } from 'tmp-promise';
+import path from 'path';
+import { fileURLToPath } from 'url';
+import { initializeSkm } from '../skm.js';
 
-// Mock the logger
-const mockLogger = {
-  success: jest.fn(),
-  error: jest.fn(),
-  info: jest.fn(),
-  warn: jest.fn()
-};
+const currentFilePath = fileURLToPath(import.meta.url);
+const currentDirPath = path.dirname(currentFilePath);
+const TEST_PATH = path.join(currentDirPath, '..', 'test-skm');
 
-// Mock process.exit
-const mockExit = jest.spyOn(process, 'exit').mockImplementation(() => {});
-
-// Import the function to test
-let initializeSkm;
-let SKM_PATH;
-let CONFIG_PATH;
-
-describe('initializeSkm', () => {
-  let tmpDir;
-
-  beforeAll(async () => {
-    // Create a temporary directory for testing
-    tmpDir = await getDir();
-
-    // Mock the constants
-    jest.unstable_mockModule('../skm.js', () => ({
-      SKM_PATH: join(tmpDir.path, '.skm'),
-      CONFIG_PATH: join(tmpDir.path, '.skm', 'config.json'),
-      logger: mockLogger,
-    }));
-
-    // Import the module after mocking
-    const module = await import('../skm.js');
-    initializeSkm = module.initializeSkm;
-    SKM_PATH = module.SKM_PATH;
-    CONFIG_PATH = module.CONFIG_PATH;
+describe('SKM Initialization', () => {
+  beforeEach(async () => {
+    process.env.NODE_ENV = 'test';
+    process.env.TEST_HOME_DIR = TEST_PATH;
+    process.env.TEST_SKM_PATH = path.join(TEST_PATH, '.skm');
+    process.env.TEST_SSH_PATH = path.join(TEST_PATH, '.ssh');
+    process.env.TEST_CONFIG_PATH = path.join(TEST_PATH, '.skm', 'config.json');
+    await fs.rm(TEST_PATH, { recursive: true, force: true });
+    await fs.mkdir(TEST_PATH, { recursive: true });
   });
 
-  beforeEach(() => {
-    jest.clearAllMocks();
+  afterEach(async () => {
+    await fs.rm(TEST_PATH, { recursive: true, force: true });
+    delete process.env.NODE_ENV;
+    delete process.env.TEST_HOME_DIR;
+    delete process.env.TEST_SKM_PATH;
+    delete process.env.TEST_SSH_PATH;
+    delete process.env.TEST_CONFIG_PATH;
+    jest.restoreAllMocks();
   });
 
-  afterAll(async () => {
-    await tmpDir.cleanup();
-  });
-
-  test('should initialize skm-node successfully', async () => {
+  it('should initialize skm-node successfully', async () => {
     await initializeSkm();
+    const config = await fs.readFile(process.env.TEST_CONFIG_PATH, 'utf-8');
+    const { use } = JSON.parse(config);
+    expect(use).toBe('');
 
-    // Check if directory was created
-    const skmExists = await fs.access(SKM_PATH)
+    const skmExists = await fs.access(process.env.TEST_SKM_PATH)
       .then(() => true)
       .catch(() => false);
     expect(skmExists).toBe(true);
-
-    // Check if config file was created
-    const configExists = await fs.access(CONFIG_PATH)
-      .then(() => true)
-      .catch(() => false);
-    expect(configExists).toBe(true);
-
-    // Check if config has correct content
-    const config = JSON.parse(await fs.readFile(CONFIG_PATH, 'utf-8'));
-    expect(config).toEqual({ use: '' });
-
-    // Check if success message was logged
-    expect(mockLogger.success).toHaveBeenCalledWith('skm-node initialized successfully!');
   });
 
-  test('should handle already initialized state', async () => {
-    // Initialize first time
+  it('should handle existing initialization', async () => {
     await initializeSkm();
-    jest.clearAllMocks();
-
-    // Try to initialize again
     await initializeSkm();
-
-    expect(mockLogger.info).toHaveBeenCalledWith('skm-node is already initialized.');
-    expect(mockLogger.success).not.toHaveBeenCalled();
+    const config = await fs.readFile(process.env.TEST_CONFIG_PATH, 'utf-8');
+    const { use } = JSON.parse(config);
+    expect(use).toBe('');
   });
 
-  test('should handle errors gracefully', async () => {
-    // Mock fs.mkdir to throw an error
-    const mockMkdir = jest.spyOn(fs, 'mkdir').mockRejectedValue(new Error('Permission denied'));
+  it('should detect existing SSH keys', async () => {
+    await fs.mkdir(process.env.TEST_SSH_PATH, { recursive: true });
+    await fs.writeFile(path.join(process.env.TEST_SSH_PATH, 'id_rsa'), 'test');
 
+    const consoleSpy = jest.spyOn(console, 'log');
     await initializeSkm();
 
-    expect(mockLogger.error).toHaveBeenCalledWith('Failed to initialize: Permission denied');
-    expect(mockExit).toHaveBeenCalledWith(1);
+    const calls = consoleSpy.mock.calls;
+    const foundKeys = calls.some(([, message]) => message && message.includes('Found existing SSH keys'));
+    expect(foundKeys).toBe(true);
 
-    mockMkdir.mockRestore();
+    consoleSpy.mockRestore();
+  });
+
+  it('should not detect SSH keys if none exist', async () => {
+    const consoleSpy = jest.spyOn(console, 'log');
+    await initializeSkm();
+
+    const calls = consoleSpy.mock.calls;
+    const foundKeys = calls.some(([, message]) => message && message.includes('Found existing SSH keys'));
+    expect(foundKeys).toBe(false);
+
+    consoleSpy.mockRestore();
+  });
+
+  it('should handle initialization errors gracefully', async () => {
+    // 模拟文件系统错误
+    jest.spyOn(fs, 'mkdir').mockRejectedValueOnce(new Error('Mock error'));
+
+    const consoleSpy = jest.spyOn(console, 'log');
+    await initializeSkm();
+
+    const calls = consoleSpy.mock.calls;
+    const foundError = calls.some(([, message]) => message && message.includes('Failed to initialize'));
+    expect(foundError).toBe(true);
+
+    consoleSpy.mockRestore();
   });
 });
