@@ -1,154 +1,218 @@
-# SSH Key Manager for Node.js (skm-node)
+# skm-node v2.0
 
-[![npm version](https://img.shields.io/npm/v/skm-node.svg)](https://badge.fury.io/js/skm-node)
-[![downloads](https://img.shields.io/npm/dt/skm-node.svg)](https://www.npmjs.com/package/skm-node)
-[![License](https://img.shields.io/badge/license-WTFPL-green.svg)](LICENSE)
+[![npm version](https://badge.fury.io/js/skm-node.svg)](https://www.npmjs.com/package/skm-node)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-A modern, easy-to-use SSH key manager for Node.js. Easily create, switch between, and manage multiple SSH keys for different services (GitHub, GitLab, servers, etc.).
+> **Modern SSH Key Manager** — Secure, fast, and developer-friendly
 
-## Features
+A complete rewrite with TypeScript, Ed25519 support, interactive CLI, and modern best practices.
 
-- 🔑 Create and manage multiple SSH keys
-- 🔄 Easy switching between different SSH keys
-- 📋 List all managed keys with clear visual indicators
-- 🚀 Modern ES Modules implementation
-- 🎨 Beautiful colored terminal output
-- ✅ Fully tested with Jest
-- 🔒 Secure key generation with 4096-bit RSA keys
+## ✨ Features
 
-> 本次更新均来自AI
+- 🔐 **Ed25519 by default** — More secure, faster, shorter keys (RSA/ECDSA also supported)
+- 🎯 **Interactive CLI** — Beautiful prompts with inquirer
+- 🔄 **Auto SSH sync** — Seamless switching between keys
+- 📋 **Rich key info** — Fingerprints, creation dates, algorithm details
+- 🗑️ **Safe deletion** — Confirmation prompts before removing keys
+- 📤 **Export ready** — Easy public key export for GitHub/GitLab
+- 🛡️ **Passphrase support** — Optional key encryption
+- 📝 **TypeScript** — Full type safety and better DX
 
-## Requirements
-
-- Node.js >= 18.0.0
-
-## Installation
+## 🚀 Installation
 
 ```bash
 npm install -g skm-node
 ```
 
-## Usage
+**Requirements:** Node.js >= 18.0.0
 
-### Initialize skm-node
+## 📖 Quick Start
 
-Before first use, initialize skm-node:
+### Initialize
 
 ```bash
 skm init
 ```
 
-This will create necessary directories and configuration files. If you have existing SSH keys, skm-node will detect them.
-
-### Create a New SSH Key
+### Create a Key (Recommended: Ed25519)
 
 ```bash
-skm create <email> <name>
+# Interactive mode (prompts for email)
+skm create github
 
-# Example:
-skm create "john@example.com" github
+# With email
+skm create github -e your@email.com
+
+# With passphrase
+skm create github -e your@email.com -p
+
+# RSA key (if needed for legacy systems)
+skm create legacy -e your@email.com -t rsa -b 4096
 ```
 
-This will:
-- Create a new 4096-bit RSA key
-- Store it with the given name
-- Associate it with your email
-
-### List Available Keys
+### List Keys
 
 ```bash
 skm ls
 ```
 
-The current active key will be marked with a green arrow (→).
+Output:
+```
+Managed SSH keys:
 
-### Switch Between Keys
+→ github (active)
+    Email: your@email.com
+    Type: ed25519
+    Fingerprint: SHA256:xxxxxxxxxxxxx
+    Created: Mon Jan 15 2024
+    Passphrase: No
 
-```bash
-skm use <name>
-
-# Example:
-skm use github
+  work
+    Email: work@company.com
+    Type: rsa (4096 bits)
+    Fingerprint: SHA256:yyyyyyyyyyyyy
+    Created: Tue Jan 16 2024
+    Passphrase: Yes
 ```
 
-This will activate the specified SSH key, making it the default key for SSH operations.
-
-### Help
+### Switch Keys
 
 ```bash
-skm --help
+skm use work
 ```
 
-Shows all available commands and their usage.
-
-## Directory Structure
-
-- `~/.skm/` - Base directory for skm-node
-  - `config.json` - Configuration file
-  - `<key-name>/` - Directory for each SSH key
-    - `id_rsa` - Private key
-    - `id_rsa.pub` - Public key
-
-## Development
-
-### Setup
+### View Fingerprint
 
 ```bash
-# Clone the repository
+skm fingerprint github
+```
+
+### Export Public Key
+
+```bash
+skm export github
+# Copy output and paste to GitHub/GitLab SSH keys settings
+```
+
+### Delete Key
+
+```bash
+skm delete github
+# Confirms before deletion
+```
+
+## 🔧 Commands
+
+| Command | Description |
+|---------|-------------|
+| `skm init` | Initialize configuration |
+| `skm create <name>` | Create new SSH key |
+| `skm ls` / `skm list` | List all managed keys |
+| `skm use <name>` | Activate a key |
+| `skm delete <name>` / `skm rm <name>` | Delete a key |
+| `skm fingerprint <name>` | Show key fingerprint |
+| `skm export <name>` | Export public key |
+| `skm --help` | Show help |
+
+## 🎯 Create Command Options
+
+```bash
+skm create <name> [options]
+
+Options:
+  -e, --email <email>     Email for the key
+  -t, --type <type>       Key type: ed25519 (default), rsa, ecdsa
+  -b, --bits <bits>       Key bits for RSA (default: 4096)
+  -p, --passphrase        Prompt for passphrase
+```
+
+## 🔒 Security Best Practices
+
+### Why Ed25519?
+
+| Algorithm | Security | Speed | Key Size | Recommendation |
+|-----------|----------|-------|----------|----------------|
+| Ed25519 | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ | 68 chars | **Recommended** |
+| ECDSA | ⭐⭐⭐⭐ | ⭐⭐⭐⭐ | ~150 chars | Good alternative |
+| RSA | ⭐⭐⭐ | ⭐⭐ | 3000+ chars | Legacy only |
+
+### Passphrase Recommendation
+
+For keys used on personal devices without automation:
+```bash
+skm create personal -e me@email.com -p
+```
+
+For CI/CD or automated deployments, use no passphrase and restrict key permissions instead.
+
+## 📁 File Structure
+
+```
+~/.skm/
+├── config.json          # SKM configuration
+├── github/
+│   ├── id_ed25519      # Private key
+│   └── id_ed25519.pub  # Public key
+└── work/
+    ├── id_rsa
+    └── id_rsa.pub
+
+~/.ssh/
+├── id_ed25519          # Currently active private key (symlink/copy)
+└── id_ed25519.pub      # Currently active public key
+```
+
+## 🛠️ Development
+
+```bash
+# Clone
 git clone https://github.com/liees/skm-node.git
 cd skm-node
 
-# Install dependencies
+# Install
 npm install
+
+# Build
+npm run build
+
+# Test
+npm test
+
+# Lint
+npm run lint
+npm run format
 ```
 
-### Testing
-
-The project uses Jest for testing. All major functionality is covered by tests.
+## 🧪 Testing
 
 ```bash
 # Run all tests
 npm test
 
-# Run tests in watch mode (useful during development)
+# Watch mode
 npm run test:watch
 
-# Run tests with coverage report
-npm run test:coverage
+# With coverage
+npm test -- --coverage
 ```
 
-### Project Structure
+## 📄 License
 
-- `skm.js` - Main application file
-- `__tests__/` - Test files
-  - `init.test.js` - Initialization tests
-  - `key-management.test.js` - Key management tests
+MIT License — see [LICENSE](LICENSE) for details.
 
-## Contributing
+## 🤝 Contributing
 
 1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -am 'Add some amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
+2. Create a feature branch: `git checkout -b feature/amazing-feature`
+3. Commit changes: `git commit -am 'Add amazing feature'`
+4. Push: `git push origin feature/amazing-feature`
 5. Create a Pull Request
 
-## License
+## 🙏 Acknowledgments
 
-This project is licensed under the WTFPL - see the [LICENSE](LICENSE) file for details.
+- Original concept by [liees](https://github.com/liees)
+- Rewritten with modern best practices and TypeScript
 
-## Acknowledgments
+---
 
-- Original author: [liees](https://github.com/liees)
-- Contributors: [List of contributors](https://github.com/liees/skm-node/graphs/contributors)
-
-## Changelog
-
-### 1.0.0
-- Complete rewrite using modern JavaScript features
-- Added ES Modules support
-- Improved error handling and logging
-- Added colored terminal output
-- Added comprehensive test suite
-- Upgraded to 4096-bit RSA keys for better security
-- Added automatic directory creation
-- Improved command-line interface
+**Made with ❤️ for developers who manage multiple SSH keys**

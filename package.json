@@ -1,42 +1,82 @@
 {
   "name": "skm-node",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "type": "module",
-  "description": "Modern SSH Key Manager",
-  "main": "skm.js",
-  "scripts": {
-    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js",
-    "lint": "eslint . --ext .js",
-    "lint:fix": "eslint . --ext .js --fix",
-    "prepare": "husky install"
-  },
+  "description": "Modern SSH Key Manager with Ed25519 support and interactive CLI",
+  "main": "./dist/index.js",
+  "types": "./dist/types/index.d.ts",
   "bin": {
-    "skm": "./skm.js"
+    "skm": "./dist/index.js"
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch",
+    "start": "node dist/index.js",
+    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js --coverage",
+    "test:watch": "node --experimental-vm-modules node_modules/jest/bin/jest.js --watch",
+    "lint": "eslint src --ext .ts",
+    "lint:fix": "eslint src --ext .ts --fix",
+    "format": "prettier --write \"src/**/*.ts\" \"tests/**/*.ts\"",
+    "format:check": "prettier --check \"src/**/*.ts\" \"tests/**/*.ts\"",
+    "prepare": "husky install",
+    "prepublishOnly": "npm run build"
   },
   "keywords": [
     "ssh",
     "key",
-    "manager"
+    "manager",
+    "ed25519",
+    "security",
+    "cli"
   ],
-  "author": "Your Name",
+  "author": "Liees",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/liees/skm-node.git"
+  },
+  "bugs": {
+    "url": "https://github.com/liees/skm-node/issues"
+  },
+  "homepage": "https://github.com/liees/skm-node#readme",
+  "engines": {
+    "node": ">=18.0.0"
+  },
   "dependencies": {
     "chalk": "^5.3.0",
     "commander": "^12.0.0",
     "execa": "^8.0.1",
-    "node-notifier": "^10.0.1",
-    "tmp-promise": "^3.0.3"
+    "inquirer": "^9.2.14",
+    "ora": "^8.0.1",
+    "zod": "^3.22.4",
+    "ssh2": "^1.15.0"
   },
   "devDependencies": {
-    "@jest/globals": "^29.7.0",
+    "@types/inquirer": "^9.0.7",
+    "@types/jest": "^29.5.12",
+    "@types/node": "^20.11.0",
+    "@types/ssh2": "^1.11.18",
+    "@typescript-eslint/eslint-plugin": "^7.0.0",
+    "@typescript-eslint/parser": "^7.0.0",
     "eslint": "^8.57.0",
-    "eslint-config-airbnb-base": "^15.0.0",
-    "eslint-plugin-import": "^2.29.1",
+    "eslint-config-prettier": "^9.1.0",
     "husky": "^9.0.11",
     "jest": "^29.7.0",
-    "lint-staged": "^15.2.2"
+    "lint-staged": "^15.2.2",
+    "prettier": "^3.2.4",
+    "ts-jest": "^29.1.2",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.3.3"
   },
   "lint-staged": {
-    "*.js": "eslint --fix"
+    "*.ts": [
+      "eslint --fix",
+      "prettier --write"
+    ]
   }
 }
