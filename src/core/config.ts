@@ -24,13 +24,15 @@ const ConfigSchema: z.ZodType<SKMConfig> = z.object({
   keys: z.record(StoredKeySchema),
 });
 
-const DEFAULT_CONFIG: SKMConfig = {
-  activeKey: null,
-  defaultAlgorithm: 'ed25519',
-  defaultBits: 4096,
-  autoSyncSSH: true,
-  keys: {},
-};
+function createDefaultConfig(): SKMConfig {
+  return {
+    activeKey: null,
+    defaultAlgorithm: 'ed25519',
+    defaultBits: 4096,
+    autoSyncSSH: true,
+    keys: {},
+  };
+}
 
 export class ConfigManager {
   private configPath: string;
@@ -50,7 +52,7 @@ export class ConfigManager {
       if (error instanceof z.ZodError) {
         console.warn('Config validation failed, resetting to defaults');
       }
-      this.config = { ...DEFAULT_CONFIG };
+      this.config = createDefaultConfig();
       await this.save();
       return this.config;
     }

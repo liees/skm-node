@@ -3,7 +3,7 @@
  */
 
 import { describe, it, expect, beforeEach, afterEach } from '@jest/globals';
-import { homedir } from 'os';
+import { tmpdir } from 'os';
 import { join } from 'path';
 import { promises as fs } from 'fs';
 // FIX #3: Corrected relative import paths (tests/core -> src/core is two levels up)
@@ -20,7 +20,7 @@ describe('SSHKeyManager', () => {
 
   beforeEach(async () => {
     // Create isolated test directory
-    testHomeDir = join(homedir(), '.skm-test-' + Date.now());
+    testHomeDir = await fs.mkdtemp(join(tmpdir(), 'skm-test-'));
     testSkmPath = join(testHomeDir, '.skm');
     testSshPath = join(testHomeDir, '.ssh');
     testConfigPath = join(testSkmPath, 'config.json');
