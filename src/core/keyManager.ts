@@ -8,7 +8,7 @@ import { promises as fs } from 'fs';
 import { join } from 'path';
 import { homedir } from 'os';
 import type { KeyGenerationOptions, SSHKeyInfo, CommandResult } from '../types/index.js';
-import { ConfigManager } from './config.js';
+import type { ConfigManager } from './config.js';
 
 // Known SSH key file prefixes to manage (avoids touching unrelated files in ~/.ssh)
 const MANAGED_KEY_PREFIXES = ['id_ed25519', 'id_rsa', 'id_ecdsa'];

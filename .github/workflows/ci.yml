@@ -49,8 +49,23 @@ jobs:
     - name: Build
       run: npm run build --if-present
 
+    - name: Check if version changed
+      id: version_check
+      run: |
+        PUBLISHED=$(npm view skm-node version 2>/dev/null || echo "0.0.0")
+        LOCAL=$(node -p "require('./package.json').version")
+        echo "published=$PUBLISHED" >> $GITHUB_OUTPUT
+        echo "local=$LOCAL" >> $GITHUB_OUTPUT
+        if [ "$PUBLISHED" = "$LOCAL" ]; then
+          echo "changed=false" >> $GITHUB_OUTPUT
+          echo "Version $LOCAL already published, skipping."
+        else
+          echo "changed=true" >> $GITHUB_OUTPUT
+          echo "Version changed: $PUBLISHED -> $LOCAL"
+        fi
+
     - name: Publish to npm
-      if: success()
+      if: success() && steps.version_check.outputs.changed == 'true'
       run: npm publish
       env:
         NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}

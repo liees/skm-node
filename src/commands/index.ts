@@ -2,7 +2,7 @@
  * CLI Commands
  */
 
-import { Command } from 'commander';
+import type { Command } from 'commander';
 import chalk from 'chalk';
 import ora from 'ora';
 import inquirer from 'inquirer';
