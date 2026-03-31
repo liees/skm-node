@@ -6,8 +6,9 @@ import { describe, it, expect, beforeEach, afterEach } from '@jest/globals';
 import { homedir } from 'os';
 import { join } from 'path';
 import { promises as fs } from 'fs';
-import { SSHKeyManager } from '../src/core/keyManager.js';
-import { ConfigManager } from '../src/core/config.js';
+// FIX #3: Corrected relative import paths (tests/core -> src/core is two levels up)
+import { SSHKeyManager } from '../../src/core/keyManager.js';
+import { ConfigManager } from '../../src/core/config.js';
 
 describe('SSHKeyManager', () => {
   let testHomeDir: string;
@@ -103,14 +104,15 @@ describe('SSHKeyManager', () => {
       expect(result.error).toContain('already exists');
     });
 
-    it('should validate email format', async () => {
+    // FIX #4: Email is now validated at the app layer, no longer relying on ssh-keygen failure
+    it('should reject invalid email format', async () => {
       const result = await keyManager.generateKey({
         name: 'bad-email',
         email: 'not-an-email',
       });
 
-      // ssh-keygen will fail with invalid email
       expect(result.success).toBe(false);
+      expect(result.error).toBe('Invalid email format');
     });
   });
 
@@ -178,6 +180,24 @@ describe('SSHKeyManager', () => {
         .catch(() => false);
       expect(sshKeyExists).toBe(true);
     });
+
+    // FIX #1: Verify that unrelated files in ~/.ssh are not deleted on sync
+    it('should not delete unrelated files in SSH directory', async () => {
+      // Create a file that should NOT be touched
+      const untouchedFile = join(testSshPath, 'my_custom_key');
+      await fs.writeFile(untouchedFile, 'custom content');
+
+      await keyManager.generateKey({
+        name: 'sync-key',
+        email: 'test@example.com',
+      });
+      await keyManager.useKey('sync-key');
+
+      const untouchedExists = await fs.access(untouchedFile)
+        .then(() => true)
+        .catch(() => false);
+      expect(untouchedExists).toBe(true);
+    });
   });
 
   describe('deleteKey', () => {
@@ -203,6 +223,49 @@ describe('SSHKeyManager', () => {
 
       expect(result.success).toBe(false);
       expect(result.error).toContain('not found');
+    });
+
+    // FIX #2: Verify that deleting the active key clears SSH directory
+    it('should clear SSH directory when deleting active key', async () => {
+      await keyManager.generateKey({
+        name: 'active-key',
+        email: 'test@example.com',
+      });
+      await keyManager.useKey('active-key');
+
+      // Confirm key is in SSH dir
+      const beforeDelete = await fs.access(join(testSshPath, 'id_ed25519'))
+        .then(() => true)
+        .catch(() => false);
+      expect(beforeDelete).toBe(true);
+
+      await keyManager.deleteKey('active-key');
+
+      // Key should be removed from SSH dir
+      const afterDelete = await fs.access(join(testSshPath, 'id_ed25519'))
+        .then(() => true)
+        .catch(() => false);
+      expect(afterDelete).toBe(false);
+    });
+
+    it('should not clear SSH directory when deleting inactive key', async () => {
+      await keyManager.generateKey({
+        name: 'active-key',
+        email: 'test@example.com',
+      });
+      await keyManager.generateKey({
+        name: 'other-key',
+        email: 'other@example.com',
+      });
+      await keyManager.useKey('active-key');
+
+      await keyManager.deleteKey('other-key');
+
+      // Active key should still be in SSH dir
+      const activeKeyExists = await fs.access(join(testSshPath, 'id_ed25519'))
+        .then(() => true)
+        .catch(() => false);
+      expect(activeKeyExists).toBe(true);
     });
   });
 

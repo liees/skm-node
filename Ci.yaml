@@ -1,0 +1,72 @@
+name: CI
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [18.x, 20.x]
+
+    steps:
+    - uses: actions/checkout@v4
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v4
+      with:
+        node-version: ${{ matrix.node-version }}
+        cache: 'npm'
+
+    - name: Install dependencies
+      run: npm ci
+
+    - name: Run linter
+      run: npm run lint
+
+    - name: Run tests
+      run: npm test
+
+  publish:
+    needs: test
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push' && github.ref == 'refs/heads/master'
+
+    steps:
+    - uses: actions/checkout@v4
+    - name: Use Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20.x'
+        registry-url: 'https://registry.npmjs.org'
+
+    - name: Install dependencies
+      run: npm ci
+
+    - name: Build
+      run: npm run build --if-present
+
+    # FIX #6: Only publish if the version in package.json differs from the published version
+    - name: Check if version changed
+      id: version_check
+      run: |
+        PUBLISHED=$(npm view skm-node version 2>/dev/null || echo "0.0.0")
+        LOCAL=$(node -p "require('./package.json').version")
+        echo "published=$PUBLISHED" >> $GITHUB_OUTPUT
+        echo "local=$LOCAL" >> $GITHUB_OUTPUT
+        if [ "$PUBLISHED" = "$LOCAL" ]; then
+          echo "changed=false" >> $GITHUB_OUTPUT
+          echo "Version $LOCAL already published, skipping."
+        else
+          echo "changed=true" >> $GITHUB_OUTPUT
+          echo "Version changed: $PUBLISHED -> $LOCAL"
+        fi
+
+    - name: Publish to npm
+      if: success() && steps.version_check.outputs.changed == 'true'
+      run: npm publish
+      env:
+        NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}

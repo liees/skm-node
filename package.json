@@ -35,7 +35,7 @@
     "cli"
   ],
   "author": "Liees",
-  "license": "MIT",
+  "license": "WTFPL",
   "repository": {
     "type": "git",
     "url": "https://github.com/liees/skm-node.git"
@@ -53,14 +53,12 @@
     "execa": "^8.0.1",
     "inquirer": "^9.2.14",
     "ora": "^8.0.1",
-    "zod": "^3.22.4",
-    "ssh2": "^1.15.0"
+    "zod": "^3.22.4"
   },
   "devDependencies": {
     "@types/inquirer": "^9.0.7",
     "@types/jest": "^29.5.12",
     "@types/node": "^20.11.0",
-    "@types/ssh2": "^1.11.18",
     "@typescript-eslint/eslint-plugin": "^7.0.0",
     "@typescript-eslint/parser": "^7.0.0",
     "eslint": "^8.57.0",

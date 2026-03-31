@@ -10,6 +10,9 @@ import { homedir } from 'os';
 import type { KeyGenerationOptions, SSHKeyInfo, CommandResult } from '../types/index.js';
 import { ConfigManager } from './config.js';
 
+// Known SSH key file prefixes to manage (avoids touching unrelated files in ~/.ssh)
+const MANAGED_KEY_PREFIXES = ['id_ed25519', 'id_rsa', 'id_ecdsa'];
+
 export class SSHKeyManager {
   private skmPath: string;
   private sshPath: string;
@@ -38,6 +41,11 @@ export class SSHKeyManager {
         passphrase = '',
         comment = email,
       } = options;
+
+      // FIX #4: Validate email format at the application layer
+      if (!email.includes('@')) {
+        return { success: false, error: 'Invalid email format' };
+      }
 
       const keyDir = join(this.skmPath, name);
       const keyPath = join(keyDir, 'id_' + algorithm);
@@ -196,6 +204,7 @@ export class SSHKeyManager {
 
   /**
    * Sync key to ~/.ssh directory
+   * FIX #1: Only removes known managed key files, not arbitrary id_* files
    */
   private async syncToSSH(name: string): Promise<void> {
     const config = this.configManager.get();
@@ -208,13 +217,13 @@ export class SSHKeyManager {
     const keyDir = join(this.skmPath, name);
     const algorithm = keyInfo.algorithm;
 
-    // Clean existing SSH keys
+    // FIX #1: Only remove known managed key files instead of all id_* files
     const sshFiles = await fs.readdir(this.sshPath);
     for (const file of sshFiles) {
-      if (file.startsWith('id_') && !file.endsWith('.pub')) {
-        await fs.unlink(join(this.sshPath, file));
-      }
-      if (file.startsWith('id_') && file.endsWith('.pub')) {
+      const isManagedKey = MANAGED_KEY_PREFIXES.some(
+        (prefix) => file === prefix || file === `${prefix}.pub`
+      );
+      if (isManagedKey) {
         await fs.unlink(join(this.sshPath, file));
       }
     }
@@ -233,6 +242,7 @@ export class SSHKeyManager {
 
   /**
    * Delete a managed key
+   * FIX #2: Check wasActive before removeKey clears it
    */
   async deleteKey(name: string): Promise<CommandResult> {
     try {
@@ -245,14 +255,16 @@ export class SSHKeyManager {
         };
       }
 
+      // FIX #2: Capture wasActive before removeKey nullifies activeKey
+      const wasActive = config.activeKey === name;
+
       const keyDir = join(this.skmPath, name);
       await fs.rm(keyDir, { recursive: true, force: true });
 
       this.configManager.removeKey(name);
       await this.configManager.save();
 
-      // If this was the active key, clear active
-      if (config.activeKey === name) {
+      if (wasActive) {
         await this.clearSSHKeys();
       }
 
@@ -268,13 +280,17 @@ export class SSHKeyManager {
   }
 
   /**
-   * Clear SSH directory keys
+   * Clear SSH directory managed keys only
+   * FIX #1: Same safe removal logic as syncToSSH
    */
   private async clearSSHKeys(): Promise<void> {
     try {
       const sshFiles = await fs.readdir(this.sshPath);
       for (const file of sshFiles) {
-        if (file.startsWith('id_')) {
+        const isManagedKey = MANAGED_KEY_PREFIXES.some(
+          (prefix) => file === prefix || file === `${prefix}.pub`
+        );
+        if (isManagedKey) {
           await fs.unlink(join(this.sshPath, file));
         }
       }
