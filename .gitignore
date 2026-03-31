@@ -6,5 +6,4 @@ coverage/
 .idea/
 .vscode/
 t.js
-package-lock.json
 npm-debug.log
